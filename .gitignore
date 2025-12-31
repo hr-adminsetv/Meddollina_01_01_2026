@@ -1,0 +1,50 @@
+# Environment variables
+.env
+.env.local
+.env.development
+.env.production
+
+# Node modules
+node_modules/
+
+# Python virtual environment
+venv/
+env/
+.venv
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+
+# Markdown files
+*.md
+
+# Log files
+*.log
+
+# Shell scripts
+*.sh
+
+# PDF files
+*.pdf
+
+# Binary, pickle, and database files
+*.bin
+*.pickle
+*.sqlite3
+
+# Large datasets
+AI/main_dataset/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
