@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
-import { 
-  Card, 
-  CardContent, 
-  CardDescription, 
-  CardHeader, 
-  CardTitle 
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle
 } from '@/components/ui/card';
-import { 
-  Activity, 
-  Heart, 
-  Brain, 
-  Stethoscope, 
+import {
+  Activity,
+  Heart,
+  Brain,
+  Stethoscope,
   AlertTriangle,
   Clock,
   MessageSquare,
@@ -37,12 +37,12 @@ interface ContextDisplayProps {
   className?: string;
 }
 
-const specialtyIcons: Record<string, React.ReactNode> = {
-  cardiology: <Heart className="h-4 w-4" />,
-  neurology: <Brain className="h-4 w-4" />,
-  emergency: <AlertTriangle className="h-4 w-4" />,
-  surgery: <Activity className="h-4 w-4" />,
-  primary: <Stethoscope className="h-4 w-4" />,
+const specialtyIcons: Record<string, React.ElementType> = {
+  cardiology: Heart,
+  neurology: Brain,
+  emergency: AlertTriangle,
+  surgery: Activity,
+  primary: Stethoscope,
 };
 
 const urgencyColors: Record<string, string> = {
@@ -59,9 +59,9 @@ const stageColors: Record<string, string> = {
   followup: 'bg-green-100 text-green-800',
 };
 
-export const ContextDisplay: React.FC<ContextDisplayProps> = ({ 
-  conversationId, 
-  className = '' 
+export const ContextDisplay: React.FC<ContextDisplayProps> = ({
+  conversationId,
+  className = ''
 }) => {
   const [context, setContext] = useState<ContextData | null>(null);
   const [loading, setLoading] = useState(true);
@@ -72,7 +72,7 @@ export const ContextDisplay: React.FC<ContextDisplayProps> = ({
       try {
         setLoading(true);
         setError(null);
-        
+
         const response = await apiClient.get(API_ENDPOINTS.AI.FRONTEND_CONTEXT(conversationId));
         if (response.data.success) {
           setContext(response.data.data);
@@ -89,7 +89,7 @@ export const ContextDisplay: React.FC<ContextDisplayProps> = ({
 
     if (conversationId) {
       fetchContext();
-      
+
       // Refresh context every 30 seconds
       const interval = setInterval(fetchContext, 30000);
       return () => clearInterval(interval);
@@ -122,19 +122,21 @@ export const ContextDisplay: React.FC<ContextDisplayProps> = ({
     );
   }
 
-  const scoreColor = context.score >= 80 ? 'text-green-600' : 
-                    context.score >= 60 ? 'text-yellow-600' : 'text-red-600';
+  const scoreColor = context.score >= 80 ? 'text-green-600' :
+    context.score >= 60 ? 'text-yellow-600' : 'text-red-600';
+
+  const IconComponent = context.specialty ? specialtyIcons[context.specialty] : null;
 
   return (
     <Card className={`w-full ${className}`}>
       <CardHeader className="pb-3">
         <div className="flex items-center justify-between">
           <CardTitle className="text-sm flex items-center gap-2">
-            {context.specialty && specialtyIcons[context.specialty] || <Target className="h-4 w-4" />}
+            {IconComponent ? <IconComponent className="h-4 w-4" /> : <Target className="h-4 w-4" />}
             {context.topic}
           </CardTitle>
-          <Badge 
-            variant="outline" 
+          <Badge
+            variant="outline"
             className={urgencyColors[context.urgency]}
           >
             {context.urgency}
@@ -146,7 +148,7 @@ export const ContextDisplay: React.FC<ContextDisplayProps> = ({
           </CardDescription>
         )}
       </CardHeader>
-      
+
       <CardContent className="space-y-3">
         {/* Current Condition */}
         <div className="space-y-1">
@@ -157,8 +159,8 @@ export const ContextDisplay: React.FC<ContextDisplayProps> = ({
         {/* Conversation Stage */}
         <div className="space-y-1">
           <p className="text-xs font-medium text-gray-600">Stage</p>
-          <Badge 
-            variant="secondary" 
+          <Badge
+            variant="secondary"
             className={stageColors[context.stage] || 'bg-gray-100 text-gray-800'}
           >
             {context.stage}
