@@ -17,10 +17,7 @@ const app = express();
 
 // CORS configuration - allow both localhost (development) and production domains
 const allowedOrigins = [
-  'http://localhost:8080',
-  'http://127.0.0.1:8080',
-  'http://localhost:8081',
-  'http://127.0.0.1:8081',
+  '0.0.0.0',
   'https://meddollina-frontent.onrender.com',
   process.env.FRONTEND_URL // Add your frontend Render URL here
 ].filter(Boolean);
