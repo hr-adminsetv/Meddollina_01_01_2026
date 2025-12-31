@@ -8,6 +8,7 @@ export default defineConfig(({ mode }) => ({
   server: {
     host: "::",
     port: 8081,
+    allowedHosts: ["meddollina-frontent.onrender.com"],
     proxy: {
       '/api': {
         target: 'http://localhost:5002',
