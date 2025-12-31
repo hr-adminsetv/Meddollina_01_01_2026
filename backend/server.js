@@ -15,9 +15,18 @@ dotenv.config();
 
 const app = express();
 
-// CORS configuration
+// CORS configuration - allow both localhost (development) and production domains
+const allowedOrigins = [
+  'http://localhost:8080',
+  'http://127.0.0.1:8080',
+  'http://localhost:8081',
+  'http://127.0.0.1:8081',
+  'https://meddollina-frontent.onrender.com',
+  process.env.FRONTEND_URL // Add your frontend Render URL here
+].filter(Boolean);
+
 app.use(cors({
-  origin: ['http://localhost:8080', 'http://127.0.0.1:8080', 'http://localhost:8081', 'http://127.0.0.1:8081'],
+  origin: allowedOrigins,
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'Cache-Control', 'Pragma', 'Expires', 'X-Request-ID', 'X-Cache-Bust', 'X-Request-Time'],
