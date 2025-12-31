@@ -1,20 +1,23 @@
 /**
  * API Configuration
  * Central configuration for backend API endpoints
+ * 
+ * Frontend and backend are completely disconnected and communicate
+ * via absolute URLs to separate domains/ports
  */
 
-// Use relative URLs for development (Vite proxy) and environment variable for production
+// Get backend URL from environment variables
 const isDev = import.meta.env.DEV;
-const prodBaseUrl = import.meta.env.VITE_API_URL;
+const devBackendUrl = 'http://localhost:5000';
+const prodBackendUrl = import.meta.env.VITE_API_URL || 'https://meddollina-backend.onrender.com';
 
 console.log('[API Config] Setting base URL...');
 console.log('[API Config] Environment:', isDev ? 'development' : 'production');
-console.log('[API Config] VITE_API_URL:', prodBaseUrl);
+console.log('[API Config] VITE_API_URL:', prodBackendUrl);
 
-// In development: use relative path (Vite proxy handles routing)
-// In production: use VITE_API_URL environment variable
-export const API_BASE_URL = isDev ? '' : (prodBaseUrl || '');
-console.log('[API Config] Base URL set to:', API_BASE_URL || '(relative/proxy)');
+// Use absolute URLs for both dev and production (no proxy)
+export const API_BASE_URL = isDev ? devBackendUrl : prodBackendUrl;
+console.log('[API Config] Base URL set to:', API_BASE_URL);
 
 export const API_ENDPOINTS = {
   // Authentication
