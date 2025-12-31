@@ -4,7 +4,7 @@
  */
 
 import axios, { AxiosError, InternalAxiosRequestConfig } from 'axios';
-import API_BASE_URL from '@/config/api';
+import { API_BASE_URL } from '@/config/api';
 
 // Create axios instance
 const apiClient = axios.create({

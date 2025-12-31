@@ -3,10 +3,18 @@
  * Central configuration for backend API endpoints
  */
 
-// Force relative URL for development with Vite proxy
+// Use relative URLs for development (Vite proxy) and environment variable for production
+const isDev = import.meta.env.DEV;
+const prodBaseUrl = import.meta.env.VITE_API_URL;
+
 console.log('[API Config] Setting base URL...');
-export const API_BASE_URL = '';
-console.log('[API Config] Base URL set to:', API_BASE_URL);
+console.log('[API Config] Environment:', isDev ? 'development' : 'production');
+console.log('[API Config] VITE_API_URL:', prodBaseUrl);
+
+// In development: use relative path (Vite proxy handles routing)
+// In production: use VITE_API_URL environment variable
+export const API_BASE_URL = isDev ? '' : (prodBaseUrl || '');
+console.log('[API Config] Base URL set to:', API_BASE_URL || '(relative/proxy)');
 
 export const API_ENDPOINTS = {
   // Authentication
